@@ -54,7 +54,41 @@ std::vector<Patient*> PatientFileLoader::loadPatientFile(const std::string& file
             Patient* p = new Patient(firstName, lastName, birthday);
             p->addDiagnosis(diagnosis);
 
+            // Parse vitals (may be empty)
+			// Skips if there are no vitals, otherwise splits by ';' and then by ',' to get each vital sign
+            if (!patientVitals.empty()) {
+
+                std::stringstream vs(patientVitals);
+                std::string everyVital;
+
+                // Split by ';'
+                while (std::getline(vs, everyVital, ';')) {
+
+                    if (everyVital.empty()) continue;
+
+                    std::stringstream ve(everyVital);
+                    std::string bodyTemperature, bloodPressure, heartRate, respiratoryRate;
+
+                    // Split by ','
+                    std::getline(ve, bodyTemperature, ',');
+                    std::getline(ve, bloodPressure, ',');
+                    std::getline(ve, heartRate, ',');
+                    std::getline(ve, respiratoryRate, ',');
+
+					// Vitals are in the format: bodyTemperature,bloodPressure,heartRate,respiratoryRate
+                    float bt = std::stof(bodyTemperature);
+                    int bp = std::stoi(bloodPressure);
+                    int hr = std::stoi(heartRate);
+                    int rr = std::stoi(respiratoryRate);
+
+					// create a new vitals record and add it to the patient
+                    Vitals* v = new Vitals(bt, bp, hr, rr);
+                    p->addVitals(v);
+                }
+            }
             
+			// add the patient to the list of patients
+            patients.push_back(p);
         }
     }
 
