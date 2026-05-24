@@ -36,6 +36,25 @@ std::vector<Patient*> PatientFileLoader::loadPatientFile(const std::string& file
             std::getline(ss, patientBirthday, '|');
             std::getline(ss, diagnosis, '|');
             std::getline(ss, patientVitals, '|');
+
+            // Split name "Last,First"
+            std::string lastName, firstName;
+            {
+                std::stringstream ns(name);
+                std::getline(ns, lastName, ',');
+                std::getline(ns, firstName, ',');
+            }
+
+            // Parse birthday
+            std::tm birthday{};
+            std::istringstream bd(patientBirthday);
+            bd >> std::get_time(&birthday, "%d-%m-%Y");
+
+            // Create patient
+            Patient* p = new Patient(firstName, lastName, birthday);
+            p->addDiagnosis(diagnosis);
+
+            
         }
     }
 
