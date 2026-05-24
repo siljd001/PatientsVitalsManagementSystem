@@ -17,7 +17,10 @@ void CompositePatientLoader::initialiseConnection()
 
 void CompositePatientLoader::loadPatients(std::vector<Patient*>& patientIn)
 {
-   
+	// load patients from each loader in the composite loader using unique pointer (auto)
+    for (auto& loader : _loaders) {
+        loader->loadPatients(patientIn);
+    }
 }
 
 void CompositePatientLoader::closeConnection()
