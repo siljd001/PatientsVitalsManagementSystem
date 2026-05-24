@@ -8,20 +8,41 @@
 #include "PatientDatabaseLoader.h"
 #include "Vitals.h"
 
+#include "CompositePatientLoader.h"
+
 #include "GPNotificationSystemFacade.h"
 #include "HospitalAlertSystemFacade.h"
 #include "PatientFileLoaderAdapter.h"
 using namespace std;
 
 
-PatientManagementSystem::PatientManagementSystem() :
-	// Now included PatientFileLoaderAdapter as the database loader, which will load patients from a file instead of a database
-	_patientDatabaseLoader(std::make_unique<PatientFileLoaderAdapter>()),
-
-	_hospitalAlertSystem(std::make_unique<HospitalAlertSystemFacade>()),
-	_gpNotificationSystem(std::make_unique<GPNotificationSystemFacade>())
+PatientManagementSystem::PatientManagementSystem()
 {
+	// create a composite loader to load patients from multiple sources. 
+	// This is an example of the composite design pattern, and allows us to easily 
+	// add new patient loaders in the future without changing the rest of the system.
+	auto composite = std::make_unique<CompositePatientLoader>();
+
+	// Add database loader
+	composite->addLoader(std::make_unique<PatientDatabaseLoader>());
+
+	// Add file loader (adapter)
+	composite->addLoader(std::make_unique<PatientFileLoaderAdapter>());
+
+	// Assign composite to the system loader
+	_patientDatabaseLoader = std::move(composite);
+
+	// The constructor's design changed due to the new File loader + DB loader combined using Composite pattern. 
+	// The constructor is now responsible for creating the composite loader and adding the individual loaders to it, 
+	// as well as initialising the notification systems. This design allows for greater flexibility and extensibility in the future, 
+	// as new loaders can be added to the composite without needing to modify the rest of the system.
+
+	// Initialise all loaders inside composite
 	_patientDatabaseLoader->initialiseConnection();
+
+	// Initialise notification systems
+	_hospitalAlertSystem = std::make_unique<HospitalAlertSystemFacade>();
+	_gpNotificationSystem = std::make_unique<GPNotificationSystemFacade>();
 }
 
 PatientManagementSystem::~PatientManagementSystem()
