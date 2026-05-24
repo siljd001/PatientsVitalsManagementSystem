@@ -10,12 +10,14 @@
 
 #include "GPNotificationSystemFacade.h"
 #include "HospitalAlertSystemFacade.h"
-
+#include "PatientFileLoaderAdapter.h"
 using namespace std;
 
 
 PatientManagementSystem::PatientManagementSystem() :
-	_patientDatabaseLoader(std::make_unique<PatientDatabaseLoader>()),
+	// Now included PatientFileLoaderAdapter as the database loader, which will load patients from a file instead of a database
+	_patientDatabaseLoader(std::make_unique<PatientFileLoaderAdapter>()),
+
 	_hospitalAlertSystem(std::make_unique<HospitalAlertSystemFacade>()),
 	_gpNotificationSystem(std::make_unique<GPNotificationSystemFacade>())
 {
