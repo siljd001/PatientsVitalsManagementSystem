@@ -8,7 +8,11 @@ void CompositePatientLoader::addLoader(std::unique_ptr<AbstractPatientDatabaseLo
 
 void CompositePatientLoader::initialiseConnection()
 {
-
+	// initialise the connection for each loader in the composite loader using unique pointer (auto)
+    for (auto& eachCompositeLoader : _loaders) {
+		// initialise the connection for each loader in the composite loader
+        eachCompositeLoader->initialiseConnection();
+    }
 }
 
 void CompositePatientLoader::loadPatients(std::vector<Patient*>& patientIn)
