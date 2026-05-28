@@ -2,6 +2,7 @@
 #pragma once
 #include "PatientAlertLevels.h"
 #include "Patient.h"
+#include "Vitals.h"
 
 class AlertStrategy {
 public:
