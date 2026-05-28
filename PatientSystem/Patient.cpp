@@ -5,6 +5,7 @@
 #include <sstream>
 
 #include "Vitals.h"
+#include "AlertStFactory.h"
 
 
 using namespace std;
@@ -68,8 +69,17 @@ const std::string& Patient::primaryDiagnosis() const
 
 void Patient::addVitals(const Vitals* v)
 {
+	// add the vitals record to the patient, and then recalculate the patient's alert level based on their diagnosis 
+	// and the new vitals record using the AlertStrategyFactory to create an alert strategy based on the patient's diagnosis, 
+	// and then using that strategy to calculate the new alert level for the patient.
 	_vitals.push_back(v);
-	// TODO: calculate alert levels
+	auto strategy = AlertStrategyFactory::create(primaryDiagnosis());
+	// add the vitals record to the patient, and then recalculate the patient's alert level based on their diagnosis
+	if (strategy) {
+		AlertLevel newLevel = strategy->calculate(this, v);
+		setAlertLevel(newLevel);
+	}
+
 }
 
 const std::vector<const Vitals*> Patient::vitals() const
