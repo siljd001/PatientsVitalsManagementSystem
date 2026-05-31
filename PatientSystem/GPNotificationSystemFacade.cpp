@@ -1,20 +1,16 @@
 #include "GPNotificationSystemFacade.h"
-
+#include "Patient.h"
 #include <iostream>
 
 
-GPNotificationSystemFacade::GPNotificationSystemFacade()
-{ }
-
-GPNotificationSystemFacade::~GPNotificationSystemFacade()
-{ }
-
-void GPNotificationSystemFacade::sendGPNotificationForPatient(Patient* p)
+void GPNotificationSystemFacade::update(Patient* p)
 {
-	if (p->alertLevel() > AlertLevel::Orange) {
-		// A mocked alert message. A real message would use an SMS/pager gateway or similar
-		std::cout << std::endl;
-		std::cout << "This is an notification to the GPs:" << std::endl;
-		std::cout << "Patient: " << p->humanReadableID() << " should be followed up" << std::endl;
-	}
+	// This is a simple implementation of the GP notification system. 
+    // In a real system, this would likely involve sending an email or SMS to the GP,
+    // or updating a dashboard that the GP can access. 
+
+    if (p->alertLevel() > AlertLevel::Orange) {
+        std::cout << "\nThis is a notification to the GPs:\n";
+        std::cout << "Patient: " << p->humanReadableID() << " should be followed up\n";
+    }
 }
