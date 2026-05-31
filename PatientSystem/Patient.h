@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "PatientAlertLevels.h"
+#include "Subject.h"
+#include "Observer.h"
 
 
 // forward declare classes
@@ -17,7 +19,7 @@ public:
 	static const std::string ANDROMEDA_STRAIN;
 };
 
-class Patient : public Person {
+class Patient : public Person, public Subject {
 public:
 
 	Patient(const std::string& firstName, const std::string& lastName, std::tm birthday);
@@ -46,6 +48,23 @@ public:
 	// patients have an alert level (green, yellow, orange, red) calculated from their disease and and their last vitals
 	void setAlertLevel(AlertLevel level);
 	const AlertLevel alertLevel() const { return _alertLevel; }
+
+	// patients are subjects in the observer pattern, and notify observers when their alert level changes.
+	std::vector<Observer*> _observers;
+
+	void addObserver(Observer* o) override {
+		_observers.push_back(o);
+	}
+
+	void removeObserver(Observer* o) override {
+		_observers.erase(std::remove(_observers.begin(), _observers.end(), o), _observers.end());
+	}
+
+	void notifyObservers(Patient* p) override {
+		for (auto* o : _observers)
+			o->update(p);
+	}
+
 
 protected:
 	std::vector<std::string> _diagnosis;
