@@ -86,5 +86,23 @@
     <ClInclude Include="CompositePatientLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AlertStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AndromedaSt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CordycepsSt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlertStFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KepralsSt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

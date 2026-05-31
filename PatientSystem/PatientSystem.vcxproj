@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -153,8 +153,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractPatientDatabaseLoader.h" />
+    <ClInclude Include="AlertStrategy.h" />
+    <ClInclude Include="AndromedaSt.h" />
     <ClInclude Include="CompositePatientLoader.h" />
+    <ClInclude Include="CordycepsSt.h" />
     <ClInclude Include="GPNotificationSystemFacade.h" />
+    <ClInclude Include="AlertStFactory.h" />
+    <ClInclude Include="KepralsSt.h" />
+    <ClInclude Include="Observer.h" />
     <ClInclude Include="PatientFileLoaderAdapter.h" />
     <ClInclude Include="HospitalAlertSystemFacade.h" />
     <ClInclude Include="PatientAlertLevels.h" />
